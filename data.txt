@@ -1,0 +1,38 @@
+#Numero de vertices e arestas respectivamente
+10 10
+
+#Arestas: v origem, v destino, custo
+1 3 1
+2 5 2
+3 7 1
+4 2 3
+5 8 2
+6 9 1
+7 10 2
+8 4 3
+9 1 2
+10 6 1
+
+#Agua necessaria: vertice, agua necessaria
+1 10
+2 10
+3 10
+4 10
+5 10
+6 10
+7 10
+8 10
+9 10
+10 10
+
+#Ponto inicial incendio: vertice
+5
+
+#Pontos de coleta de agua: vertices
+7 1 10
+
+#Postos de brigadistas: vertice
+2 4 6
+
+#Capacidade caminhoes: valor
+30
