@@ -1,9 +1,6 @@
-import networkx as nx
+from classes.graph import Graph
 def create_graph(num_vertices, edges):
-    G = nx.Graph()
-    
-    # Add vertices
-    G.add_nodes_from(range(num_vertices))
+    G = Graph(num_vertices)
     
     # Add edges with weights
     for source, target, cost in edges:
