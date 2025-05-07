@@ -17,4 +17,3 @@ def fire_propagation(graph: Graph, fire_start): # O(1)
             graph.set_state(neighbor, "fire")
     
     return neighbors
-    
