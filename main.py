@@ -9,3 +9,7 @@ if __name__ == "__main__":
     fire_start = data['fire_start']
 
     graph = f.create_graph(num_vertices, data['edges'])
+    
+    neighbors = f.fire_propagation(graph, fire_start)
+    
+    print(neighbors)
