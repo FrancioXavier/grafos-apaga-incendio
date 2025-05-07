@@ -8,12 +8,18 @@ if __name__ == "__main__":
     num_edges = data['num_edges']
     fire_start = data['fire_start']
     water_needed = data['water_needed']
+    firefighter_stations = data['firefighter_stations']
+    edges = data['edges']
+    truck_capacity = data['truck_capacity']
 
-    graph = f.create_graph(num_vertices, data['edges'])
+    graph = f.create_graph(
+        num_vertices, 
+        edges, 
+        water_needed, 
+        firefighter_stations, 
+        fire_start
+    )
     
-    for vertex, water in water_needed.items(): # O(N)
-        graph.set_water_needed(vertex, water)
+    neighbors = f.put_out_fire(graph, fire_start, truck_capacity)
     
-    flame = graph.set_state(fire_start, "fire")
-    
-    neighbors = f.fire_propagation(graph, fire_start)
+    print(neighbors)

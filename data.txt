@@ -14,6 +14,7 @@
 9 5 1
 
 #Agua necessaria: vertice, agua necessaria
+0 10
 1 10
 2 10
 3 10
@@ -23,13 +24,12 @@
 7 10
 8 10
 9 10
-10 10
 
 #Ponto inicial incendio: vertice
 5
 
 #Pontos de coleta de agua: vertices
-7 1 10
+7 1 9
 
 #Postos de brigadistas: vertice
 2 4 6

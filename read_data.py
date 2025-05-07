@@ -68,4 +68,9 @@ def read_data(file_path):
             elif current_section == 'truck_capacity':
                 data['truck_capacity'] = int(line.strip())
                 current_section = None
+                
+        
+        if data['fire_start'] in data['firefighter_stations']:
+            raise Exception("Fire start point cannot be a firefighter station")
+
     return data

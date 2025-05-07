@@ -4,6 +4,7 @@ class Graph:
         self.adjacency_list = {vertex: [] for vertex in range(num_vertices)}
         self.state = {state: "stable" for state in range(num_vertices)}
         self.water_needed = {water_needed: 0 for water_needed in range(num_vertices)}
+        self.firefighters_quant = {firefighters_quant: 0 for firefighters_quant in range(num_vertices)}
     
     def add_edge(self, start: int, end: int, weight=1):  # O(1)
         self.adjacency_list[start].append((end, weight))
@@ -15,6 +16,15 @@ class Graph:
     def get_state(self, vertex: int):  # O(1)
         return self.state[vertex]
     
+    def get_water_needed(self, vertex: int):
+        return self.water_needed[vertex]
+    
+    def get_firefighters_quant(self, vertex: int):
+        return self.firefighters_quant[vertex]
+    
+    def set_firefighters_quant(self, vertex: int, quant: int):  # O(1)
+        self.firefighters_quant[vertex] = quant
+    
     def set_state(self, vertex: int, state: str):  # O(1)
         self.state[vertex] = state
         
@@ -22,7 +32,7 @@ class Graph:
         self.water_needed[vertex] = water
     
     def change_state(self, state: str):  # O(1) 
-         self.state = state
+        self.state = state
     
     def __str__(self):
         result = f"Graph with {self.num_vertices} vertices\n"
