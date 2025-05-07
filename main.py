@@ -1,6 +1,6 @@
 
 import read_data as read_data
-import functions as f
+import classes.graph as graph
 if __name__ == "__main__":
     data = read_data.read_data("data.txt")
 
@@ -11,15 +11,16 @@ if __name__ == "__main__":
     firefighter_stations = data['firefighter_stations']
     edges = data['edges']
     truck_capacity = data['truck_capacity']
+    
+    graph_obj = graph.Graph(num_vertices)
 
-    graph = f.create_graph(
-        num_vertices, 
+
+    graph = graph_obj.assemble_graph(
         edges, 
         water_needed, 
         firefighter_stations, 
         fire_start
     )
     
-    neighbors = f.put_out_fire(graph, fire_start, truck_capacity)
-    
-    print(neighbors)
+    graph_obj.propagate_fire(fire_start)
+
