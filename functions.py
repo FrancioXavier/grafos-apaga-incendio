@@ -12,5 +12,9 @@ def create_graph(num_vertices, edges): # O(E) beeing E the number of edges
 def fire_propagation(graph: Graph, fire_start): # O(1)
     neighbors =  graph.get_neighbors(fire_start)
     
+    for neighbor, _ in neighbors:
+        if graph.get_state(neighbor) == "stable":
+            graph.set_state(neighbor, "fire")
+    
     return neighbors
     

@@ -10,6 +10,6 @@ if __name__ == "__main__":
 
     graph = f.create_graph(num_vertices, data['edges'])
     
-    neighbors = f.fire_propagation(graph, fire_start)
+    flame = graph.set_state(fire_start, "fire")
     
-    print(neighbors)
+    neighbors = f.fire_propagation(graph, fire_start)
