@@ -11,6 +11,7 @@ if __name__ == "__main__":
     firefighter_stations = data['firefighter_stations']
     edges = data['edges']
     truck_capacity = data['truck_capacity']
+    water_collection_points = data['water_collection_points']
     
     graph_obj = graph.Graph(num_vertices)
 
