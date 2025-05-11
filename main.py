@@ -23,5 +23,4 @@ if __name__ == "__main__":
         fire_start
     )
     
-    graph_obj.propagate_fire(fire_start)
-
+    graph_obj.attempt_to_extinguish_fire(fire_start, truck_capacity)
