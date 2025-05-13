@@ -6,6 +6,8 @@ class Truck:
     def __init__(self, capacity: int, id: int):
         self.id = id
         self.capacity = capacity
+        self.position = id
+        self.current_capacity = capacity
         
     def emptying_tank(self, water_needed: int) -> int:
         if water_needed >= self.capacity:
@@ -20,9 +22,9 @@ class Truck:
         distances = [float('inf')] * graph.num_vertices
         previous = [None] * graph.num_vertices
 
-        distances[self.id] = 0
+        distances[self.position] = 0
         
-        distances_list_vertices = [float('inf')] * len(vertices)
+        lower_cost = [0, 0]
 
         for _ in range(graph.num_vertices):
             min_distance = float('inf')
@@ -44,20 +46,27 @@ class Truck:
                     if new_distance < distances[neighbor]:
                         distances[neighbor] = new_distance
                         previous[neighbor] = min_vertex
-                        
+
                         if neighbor in vertices:
-                            pass
-                        
-            
+                            lower_cost[0] = neighbor
+                            lower_cost[1] = new_distance
 
-        return self.get_path(previous, vertices)
+        return lower_cost
 
-    def get_path(self, previous: list[int], vertices: list[int]) -> list[V.Vertex]:
+    def get_path(self, target: int, previous: list[int]) -> list[int]:
         path = []
-        for vertex in vertices:
-            if previous[vertex] is not None:
-                path.append(vertex)
-                
-        print(f"Truck {self.id} path: {path}")
+        current = target
 
-        return path
+        while current is not None:
+            path.append(current)
+            current = previous[current]
+        
+        return path[::-1]
+    
+    def refueling_water(self, water_collections: list[int]) -> int:
+        if (self.position in water_collections):
+            self.current_capacity = self.capacity
+            print(f"Truck refueled at vertex {self.position}.")
+            return 0
+        
+        print(f"Position {self.position} is not at a water collection point.")

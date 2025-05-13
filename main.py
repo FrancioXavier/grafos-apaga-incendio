@@ -28,5 +28,4 @@ if __name__ == "__main__":
         truck_id = firefighter_stations[i]
         trucks[truck_id] = truck.Truck(truck_capacity, truck_id)
         print(trucks[truck_id].dijkstra(graph_obj, water_collection_points))
-    
-    print(graph_obj)
+
