@@ -70,3 +70,4 @@ class Truck:
             return 0
         
         print(f"Position {self.position} is not at a water collection point.")
+        return 0
