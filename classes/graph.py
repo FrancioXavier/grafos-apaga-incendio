@@ -17,16 +17,23 @@ class Graph:
         edges: list[tuple[int, int, int]],
         water_needed: dict[int, int], 
         firefighter_stations: list, 
-        fire_start: int
+        fire_start: int,
+        water_collect_points:list
     ): # O(E) beeing E the number of edges
         
         for vertex in self.vertices: # O(N)
-            vertex = V.Vertex(vertex, VS.VertexState.STABLE)
+            if vertex.id in [fs.id for fs in firefighter_stations]:
+                vertex = V.Vertex(vertex.id, VT.VertexType.FIRE_STATION)
+            elif vertex.id in [wcp.id for wcp in water_collect_points]:
+                vertex = V.Vertex(vertex.id, VT.VertexType.LAKE)
+            else:
+                vertex = V.Vertex(vertex.id, VT.VertexType.FOREST)
             
             if vertex.id == fire_start:
                 vertex.state = VS.VertexState.FIRE
             
             vertex.water_needed = water_needed[vertex.id]
+
             if(vertex in firefighter_stations):
                 vertex.firefighters_quant += 1
                 

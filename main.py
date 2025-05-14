@@ -2,6 +2,7 @@
 import read_data as read_data
 import classes.graph as graph
 import classes.Truck as truck
+
 if __name__ == "__main__":
     data = read_data.read_data("data.txt")
 
@@ -20,12 +21,17 @@ if __name__ == "__main__":
         edges, 
         water_needed, 
         firefighter_stations, 
-        fire_start
+        fire_start,
+        water_collection_points
     )
     
     trucks = {}
+    
     for i in range(len(firefighter_stations)):
         truck_id = firefighter_stations[i]
-        trucks[truck_id] = truck.Truck(truck_capacity, truck_id)
-        print(trucks[truck_id].dijkstra(graph_obj, water_collection_points))
 
+        #3 trucks per station
+        for j in range (3):
+            trucks[truck_id] = truck.Truck(truck_capacity, truck_id)
+
+        print(trucks[truck_id].dijkstra(graph_obj, water_collection_points))
