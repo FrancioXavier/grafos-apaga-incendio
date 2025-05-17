@@ -1,5 +1,5 @@
 #Numero de vertices e arestas respectivamente
-10 10
+10 13
 
 #Arestas: v origem, v destino, custo
 0 2 1
@@ -12,6 +12,9 @@
 7 3 3
 8 0 2
 9 5 1
+7 9 2
+4 0 3
+4 6 1
 
 #Agua necessaria: vertice, agua necessaria
 0 10

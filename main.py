@@ -25,13 +25,19 @@ if __name__ == "__main__":
         water_collection_points
     )
     
-    trucks = {}
+    trucks = []
     
     for i in range(len(firefighter_stations)):
         truck_id = firefighter_stations[i]
 
         #3 trucks per station
         for j in range (3):
-            trucks[truck_id] = truck.Truck(truck_capacity, truck_id)
+            new_truck = truck.Truck(truck_capacity, truck_id)
+            trucks.append(new_truck)
 
-        print(trucks[truck_id].dijkstra(graph_obj, water_collection_points))
+    print("Trucks created:")
+    for i in range(len(trucks)):
+        print(f"Truck {i}: ID {trucks[i].id}, Capacity {trucks[i].capacity}")
+
+    for i in range(9):
+        print(trucks[i].dijkstra(graph_obj, water_collection_points))

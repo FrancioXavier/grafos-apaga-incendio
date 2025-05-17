@@ -22,14 +22,14 @@ class Graph:
     ): # O(E) beeing E the number of edges
         
         for vertex in self.vertices: # O(N)
-            if vertex.id in [fs.id for fs in firefighter_stations]:
-                vertex = V.Vertex(vertex.id, VT.VertexType.FIRE_STATION)
-            elif vertex.id in [wcp.id for wcp in water_collect_points]:
-                vertex = V.Vertex(vertex.id, VT.VertexType.LAKE)
+            if vertex in [fs for fs in firefighter_stations]:
+                vertex = V.Vertex(vertex, VT.VertexType.FIRE_STATION)
+            elif vertex in [wcp for wcp in water_collect_points]:
+                vertex = V.Vertex(vertex, VT.VertexType.LAKE)
             else:
-                vertex = V.Vertex(vertex.id, VT.VertexType.FOREST)
+                vertex = V.Vertex(vertex, VT.VertexType.FOREST)
             
-            if vertex.id == fire_start:
+            if vertex.id == fire_start and vertex.type == VT.VertexType.FOREST:
                 vertex.state = VS.VertexState.FIRE
             
             vertex.water_needed = water_needed[vertex.id]
@@ -64,4 +64,7 @@ class Graph:
         result = f"Graph with {self.num_vertices} vertices\n"
         for vertex, neighbors in self.adjacency_list.items():
             result += f"  Vertex {vertex} -> {neighbors}\n"
+        result += "\n"
+        for vertex in self.vertices:
+            result += f"  Vertex {vertex.id}: Type: {vertex.type}, State: {vertex.state}, Water Needed: {vertex.water_needed}\n"
         return result
