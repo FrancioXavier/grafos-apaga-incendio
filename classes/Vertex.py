@@ -23,10 +23,10 @@ class Vertex:
         if(self.state == VS.VertexState.FIRE and self.water_needed <= total_water):
             self.state = VS.VertexState.STABILIZED
             self.report_fire_extinguished()
-            return
+            return True
 
         self.request_additional_water(total_water)
-        return
+        return False
 
     def report_fire_extinguished(self): # O(1)
         if(self.state == VS.VertexState.STABILIZED):
