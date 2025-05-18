@@ -1,6 +1,6 @@
 import classes.Vertex as V
 import classes.graph as g
-
+from classes.BinaryHeap import BinaryHeap
 
 class Truck:
     def __init__(self, capacity: int, id: int):
@@ -18,40 +18,40 @@ class Truck:
         return 0
     
     def dijkstra(self, graph: g.Graph, vertices: list[int]) -> list[V.Vertex]:
-        visited = [False] * graph.num_vertices
         distances = [float('inf')] * graph.num_vertices
         previous = [None] * graph.num_vertices
-
         distances[self.position] = 0
+
+        min_heap = BinaryHeap(is_min_heap=True)
+        min_heap.push((0, self.position))
         
-        lower_cost = [0, 0]
-
-        for _ in range(graph.num_vertices):
-            min_distance = float('inf')
-            min_vertex = -1
+        closest_target = None
+        min_target_distance = float('inf')
+        
+        target_set = set(vertices)
+        
+        while min_heap.heap:
+            current_distance, current_vertex = min_heap.pop()
             
-            for vertex in range(graph.num_vertices):
-                if not visited[vertex] and distances[vertex] < min_distance:
-                    min_distance = distances[vertex]
-                    min_vertex = vertex
-
-            if min_vertex == -1:
-                break
-
-            visited[min_vertex] = True
-
-            for neighbor, weight in graph.adjacency_list[min_vertex]:
-                if not visited[neighbor]:
-                    new_distance = distances[min_vertex] + weight
-                    if new_distance < distances[neighbor]:
-                        distances[neighbor] = new_distance
-                        previous[neighbor] = min_vertex
-
-                        if neighbor in vertices:
-                            lower_cost[0] = neighbor
-                            lower_cost[1] = new_distance
-
-        return lower_cost
+            if current_distance > distances[current_vertex]:
+                continue
+            
+            if current_vertex in target_set and current_distance < min_target_distance:
+                closest_target = current_vertex
+                min_target_distance = current_distance
+            
+            for neighbor, weight in graph.adjacency_list[current_vertex]:
+                new_distance = distances[current_vertex] + weight
+                
+                if new_distance < distances[neighbor]:
+                    distances[neighbor] = new_distance
+                    previous[neighbor] = current_vertex
+                    min_heap.push((new_distance, neighbor))
+        
+        if closest_target is None:
+            return [0, 0]
+        
+        return [closest_target, min_target_distance]
 
     def get_path(self, target: int, previous: list[int]) -> list[int]:
         path = []
