@@ -5,15 +5,13 @@ class Vertex:
     def __init__(self, id, type: VT):
         self.id = id
         self.type = type
-        self.neighbors = []             # lista de vértices adjacentes
-        self.burning = False            # apenas relevante para vertices FOREST
-        self.estabilized = False        # se o fogo foi apagado
+        self.neighbors = []      # se o fogo foi apagado
         self.state = VS.VertexState.STABLE
         self.water_needed = 0
         self.firefighters_quant = 0
 
     def can_burn(self) -> bool:
-        return self.type == VT.VertexType.FOREST and not self.burning and not self.estabilized
+        return self.type == VT.VertexType.FOREST and self.state == VS.VertexState.STABLE
     
     def is_water_source(self) -> bool:
         return self.type in {VT.VertexType.LAKE, VT.VertexType.FIRE_STATION}

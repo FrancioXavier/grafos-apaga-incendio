@@ -1,7 +1,6 @@
 import classes.VertexState as VS
 import classes.Vertex as V
 import classes.VertexType as VT
-from collections import deque
 
 class Graph:
     def __init__(self, num_vertices: int):
@@ -45,20 +44,18 @@ class Graph:
             self.add_edge(source, target, weight=cost)
 
 
-    def propagate_fire(self, fire_start: int, queue: deque): # O(v) sendo v o numero de vizinhos ao redor do vertice
-        neighbors =  self.adjacency_list[fire_start]
-        
-        vertex = self.vertices[fire_start]
-
-        vertex.state = VS.VertexState.BURNED
-
-        for neighbor, _ in neighbors:
-            vertex = self.vertices[neighbor]
-            if vertex.state == VS.VertexState.STABLE and vertex.type == VT.VertexType.FOREST:
-                vertex.state = VS.VertexState.FIRE
-                queue.append(neighbor)
-        
-        return queue      
+    def propagate_fire(self, fire_vertices: set, next_fire_vertices: set): # O(v) sendo v o numero de vizinhos ao redor do vertice
+        for v_id in fire_vertices:
+            vertex = self.vertices[v_id]
+            vertex.state = VS.VertexState.BURNED
+            
+            # Verifica apenas vizinhos que são estáveis e tipo floresta
+            for neighbor_id, _ in self.adjacency_list[v_id]:
+                neighbor_vertex = self.vertices[neighbor_id]
+                if neighbor_vertex.can_burn():
+                    neighbor_vertex.state = VS.VertexState.FIRE
+                    next_fire_vertices.add(neighbor_id)
+        return next_fire_vertices
     
 
     def attempt_to_extinguish_fire(self, vertex_fire: int, truck_capacity: int): # O(1)
