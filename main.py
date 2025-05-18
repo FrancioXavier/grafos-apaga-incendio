@@ -2,6 +2,8 @@
 import read_data as read_data
 import classes.graph as graph
 import classes.Truck as truck
+from collections import deque
+import classes.VertexState as VS
 
 if __name__ == "__main__":
     data = read_data.read_data("data.txt")
@@ -26,18 +28,39 @@ if __name__ == "__main__":
     )
     
     trucks = []
+    truck_id = 0
     
     for i in range(len(firefighter_stations)):
-        truck_id = firefighter_stations[i]
+        initial_position = firefighter_stations[i]
 
         #3 trucks per station
         for j in range (3):
-            new_truck = truck.Truck(truck_capacity, truck_id)
+            new_truck = truck.Truck(truck_capacity, initial_position, truck_id)
             trucks.append(new_truck)
-
-    print("Trucks created:")
-    for i in range(len(trucks)):
-        print(f"Truck {i}: ID {trucks[i].id}, Capacity {trucks[i].capacity}")
+            truck_id += 1
+            
+            print(f"Truck {new_truck.id} in position {new_truck.position} created with capacity {new_truck.capacity}.")
 
     for i in range(9):
         print(trucks[i].dijkstra(graph_obj, water_collection_points))
+        
+    
+        
+    # queue = deque()
+    # queue.append(fire_start)
+    # visited = set()
+    
+    # while queue:
+    #     current = queue.popleft()
+    #     vertex = graph.vertices[current]
+
+    #     if vertex.state == VS.VertexState.BURNED:
+    #         continue
+
+    #     visited.add(current)
+    #     queue = graph_obj.propagate_fire(current)
+    
+    # while True:
+        
+        
+    #     break

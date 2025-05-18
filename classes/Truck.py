@@ -3,11 +3,12 @@ import classes.graph as g
 from classes.BinaryHeap import BinaryHeap
 
 class Truck:
-    def __init__(self, capacity: int, id: int):
+    def __init__(self, capacity: int, position: int, id: int):
         self.id = id
         self.capacity = capacity
-        self.position = id
+        self.position = position
         self.current_capacity = capacity
+        self.path = []
         
     def emptying_tank(self, water_needed: int) -> int:
         if water_needed >= self.capacity:
@@ -49,9 +50,10 @@ class Truck:
                     min_heap.push((new_distance, neighbor))
         
         if closest_target is None:
-            return [0, 0]
-        
-        return [closest_target, min_target_distance]
+            return [0, []]
+        path = self.get_path(closest_target, previous)
+ 
+        return [closest_target, path]
 
     def get_path(self, target: int, previous: list[int]) -> list[int]:
         path = []
