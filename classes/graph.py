@@ -19,7 +19,7 @@ class Graph:
         firefighter_stations: list, 
         fire_start: int,
         water_collect_points:list
-    ): # O(E) beeing E the number of edges
+    ):
         
         for vertex in self.vertices: # O(N)
             if vertex in [fs for fs in firefighter_stations]:
@@ -42,8 +42,7 @@ class Graph:
         for source, target, cost in edges:
             self.add_edge(source, target, weight=cost)
 
-
-    def propagate_fire(self, fire_vertices: set, next_fire_vertices: set): # O(v) sendo v o numero de vizinhos ao redor do vertice
+    def propagate_fire(self, fire_vertices: set, next_fire_vertices: set):
         for v_id in fire_vertices:
             vertex = self.vertices[v_id]
             vertex.state = VS.VertexState.BURNED

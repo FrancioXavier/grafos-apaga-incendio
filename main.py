@@ -31,7 +31,6 @@ if __name__ == "__main__":
     )
 
     total_water_used = 0
-    total_time = 0
      
     trucks = []
     truck_id = 0
