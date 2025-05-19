@@ -70,12 +70,16 @@ if __name__ == "__main__":
 
         # Verifica o caminho mais próximo para cada caminhão ao incêndio mais próximo
         for truck in trucks:
+            truck.current_cost += 1
             if not truck.needing_water:
                 closest_target, path, min_target_distance = truck.dijkstra(graph_obj, fire_vertices)
                 if closest_target is not None:
                     if len(path) > 0:
-                        truck.position = path[0] # Move o caminhão para o próximo vértice
-                        truck.path.append(path[0])
+                        can_move, new_cost = graph_obj.compare_costs(truck.position, path[0], truck.current_cost)
+                        if can_move:
+                            truck.current_cost = new_cost
+                            truck.position = path[0] # Move o caminhão para o próximo vértice
+                            truck.path.append(path[0])
                     if (graph_obj.vertices[truck.position].state == VS.VertexState.FIRE):
                         if graph_obj.attempt_to_extinguish_fire(truck.position, truck.current_capacity):
                             total_water_used += graph_obj.vertices[truck.position].water_needed

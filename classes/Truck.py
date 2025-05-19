@@ -10,6 +10,7 @@ class Truck:
         self.current_capacity = capacity
         self.path = []
         self.needing_water = False
+        self.current_cost = 1
         
     def emptying_tank(self, water_needed: int) -> int:
         if water_needed >= self.capacity:

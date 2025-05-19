@@ -38,8 +38,7 @@ class Graph:
                 vertex.firefighters_quant += 1
                 
             self.vertices[vertex.id] = vertex
-        
-        # Add edges with weights
+
         for source, target, cost in edges:
             self.add_edge(source, target, weight=cost)
 
@@ -61,6 +60,18 @@ class Graph:
     def attempt_to_extinguish_fire(self, vertex_fire: int, truck_capacity: int): # O(1)
         vertex = self.vertices[vertex_fire]
         return vertex.trying_to_extinguish(truck_capacity)
+    
+    def compare_costs(self, vertex_id: int, destiny_id: int, current_cost: int):
+        for id_value, weight_edge in self.adjacency_list[vertex_id]:
+            if id_value == destiny_id:
+                weight = weight_edge
+                break
+        
+        if current_cost >= weight:
+            return (True, current_cost - weight)
+
+        return (False, current_cost)
+        
     
     def __str__(self):
         result = f"Graph with {self.num_vertices} vertices\n"
