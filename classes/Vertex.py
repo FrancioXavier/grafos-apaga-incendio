@@ -8,16 +8,15 @@ class Vertex:
         self.neighbors = []      # se o fogo foi apagado
         self.state = VS.VertexState.STABLE
         self.water_needed = 0
-        self.firefighters_quant = 0
 
     def can_burn(self) -> bool:
-        return self.type == VT.VertexType.FOREST and self.state == VS.VertexState.STABLE
+        return (self.type == VT.VertexType.FOREST or self.type == VT.VertexType.LAKE) and self.state == VS.VertexState.STABLE
     
     def is_water_source(self) -> bool:
         return self.type in {VT.VertexType.LAKE, VT.VertexType.FIRE_STATION}
     
     def trying_to_extinguish(self, truck_capacity: int) -> bool:
-        total_water = self.firefighters_quant * truck_capacity
+        total_water = truck_capacity
         if(self.state == VS.VertexState.FIRE and self.water_needed <= total_water):
             self.state = VS.VertexState.STABILIZED
             self.report_fire_extinguished()

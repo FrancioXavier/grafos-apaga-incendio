@@ -9,6 +9,7 @@ class Truck:
         self.position = position
         self.current_capacity = capacity
         self.path = []
+        self.needing_water = False
         
     def emptying_tank(self, water_needed: int) -> int:
         if water_needed >= self.capacity:
@@ -53,7 +54,7 @@ class Truck:
             return [0, []]
         path = self.get_path(closest_target, previous)
  
-        return [closest_target, path]
+        return [closest_target, path, min_target_distance]
 
     def get_path(self, target: int, previous: list[int]) -> list[int]:
         path = []
@@ -63,7 +64,10 @@ class Truck:
             path.append(current)
             current = previous[current]
         
-        return path[::-1]
+        path = path[::-1]
+        path.pop(0)
+       
+        return path
     
     def refueling_water(self, water_collections: list[int]) -> int:
         if (self.position in water_collections):

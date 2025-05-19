@@ -17,7 +17,9 @@ if __name__ == "__main__":
     edges = data['edges']
     truck_capacity = data['truck_capacity']
     water_collection_points = data['water_collection_points']
-    
+    water_sources = firefighter_stations.copy()
+    water_sources.extend(water_collection_points)
+
     graph_obj = graph.Graph(num_vertices)
 
     graph = graph_obj.assemble_graph(
@@ -65,6 +67,35 @@ if __name__ == "__main__":
     round_number = 0
     while fire_vertices:  # Continua enquanto houver fogo
         print(f"\n--- Rodada {round_number} ---")
+
+        # Verifica o caminho mais próximo para cada caminhão ao incêndio mais próximo
+        for truck in trucks:
+            if not truck.needing_water:
+                closest_target, path, min_target_distance = truck.dijkstra(graph_obj, fire_vertices)
+                if closest_target is not None:
+                    if len(path) > 0:
+                        truck.position = path[0] # Move o caminhão para o próximo vértice
+                        truck.path.append(path[0])
+                    if (graph_obj.vertices[truck.position].state == VS.VertexState.FIRE):
+                        if graph_obj.attempt_to_extinguish_fire(truck.position, truck.current_capacity):
+                            total_water_used += graph_obj.vertices[truck.position].water_needed
+                            print(f"Caminhão {truck.id} apagou o fogo no vértice {truck.position}.")
+                            fire_vertices.remove(truck.position)
+                            truck.current_capacity -= graph_obj.vertices[truck.position].water_needed
+                            if truck.current_capacity <= 0:
+                                truck.needing_water = True
+                        else:
+                            print(f"Caminhão {truck.id} não conseguiu apagar o fogo no vértice {truck.position}.")
+                            truck.needing_water = True
+            else:
+                closest_target, path, min_target_distance = truck.dijkstra(graph_obj, water_sources)
+                if closest_target is not None:
+                    if len(path) > 0:
+                        truck.position = path[0]
+                        truck.path.append(path[0])
+                    if (graph_obj.vertices[truck.position].state == VS.VertexState.LAKE or graph_obj.vertices[truck.position].state == VS.VertexState.FIRE_STATION):
+                        truck.refueling_water(water_sources)
+                        truck.needing_water = False
         
         next_fire_vertices = set()
         
@@ -75,7 +106,7 @@ if __name__ == "__main__":
         if not next_fire_vertices:
             print("O fogo não pode mais se espalhar.")
         else:
-            print(f"Vértices que pegaram fogo: {next_fire_vertices}")
+            print(f"Vértices que pegarão fogo: {next_fire_vertices}")
             
         fire_vertices = next_fire_vertices
         round_number += 1
@@ -85,5 +116,17 @@ if __name__ == "__main__":
             print("Estado atual dos vértices em chamas:")
         else:
             print(f"Total de {len(fire_vertices)} vértices em chamas")
+
+    saved_vertices = 0
+    for vertex in graph_obj.vertices:
+        if vertex.state == VS.VertexState.STABLE or vertex.state == VS.VertexState.STABILIZED:
+            saved_vertices += 1
+    
+    print(f"\nTotal de vértices salvos: {saved_vertices}")
+    print(f"\nTotal de água utilizada: {total_water_used}")
+
+    print("\nCaminho percorrido por cada caminhão:")
+    for truck in trucks:
+        print(f"Caminho percorrido pelo caminhão {truck.id}: {truck.path}")
 
     print(f"Simulação encerrada após {round_number} rodadas.")
