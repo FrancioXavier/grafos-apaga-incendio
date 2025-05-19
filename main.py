@@ -43,29 +43,11 @@ if __name__ == "__main__":
             new_truck = truck.Truck(truck_capacity, initial_position, truck_id)
             trucks.append(new_truck)
             truck_id += 1
-        
-        
-    # queue = deque()
-    # queue.append(fire_start)
-    # visited = set()
-    
-    # while queue:
-    #     current = queue.popleft()
-    #     vertex = graph_obj.vertices[current]
 
-    #     if vertex.state == VS.VertexState.BURNED:
-    #         continue
-
-    #     visited.add(current)
-    #     queue = graph_obj.propagate_fire(current, queue, visited)
-        
-    #     print(queue)
-    
-    # Inicialização - Execute uma vez antes do loop
     fire_vertices = set(v.id for v in graph_obj.vertices if v.state == VS.VertexState.FIRE)
 
     round_number = 0
-    while fire_vertices:  # Continua enquanto houver fogo
+    while fire_vertices:
         print(f"\n--- Rodada {round_number} ---")
 
         # Verifica o caminho mais próximo para cada caminhão ao incêndio mais próximo
@@ -103,10 +85,8 @@ if __name__ == "__main__":
         
         next_fire_vertices = set()
         
-        # Processa apenas os vértices em chamas (não todos os vértices)
         next_fire_vertices = graph_obj.propagate_fire(fire_vertices, next_fire_vertices)
         
-        # Atualiza conjunto de vértices em chamas para próxima rodada
         if not next_fire_vertices:
             print("O fogo não pode mais se espalhar.")
         else:
@@ -114,8 +94,7 @@ if __name__ == "__main__":
             
         fire_vertices = next_fire_vertices
         round_number += 1
-        
-        # Imprime apenas se necessário (reduzimos para O(1) relevantes em vez de O(V))
+
         if len(fire_vertices) < 10:  # Só imprime quando há poucos vértices
             print("Estado atual dos vértices em chamas:")
         else:

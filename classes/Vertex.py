@@ -19,21 +19,13 @@ class Vertex:
         total_water = truck_capacity
         if(self.state == VS.VertexState.FIRE and self.water_needed <= total_water):
             self.state = VS.VertexState.STABILIZED
-            self.report_fire_extinguished()
             return True
 
         self.request_additional_water(total_water)
         return False
 
-    def report_fire_extinguished(self): # O(1)
-        if(self.state == VS.VertexState.STABILIZED):
-            print(f"Fire at vertex {self.id} extinguished.")
-            return
-
     def request_additional_water(self, total_water: int): # O(1)
         if (self.water_needed <= total_water):
             self.water_needed -= total_water
 
-        if(self.state == VS.VertexState.FIRE):
-            print(f"Need {self.water_needed} additional water for vertex {self.id}.")
-            return
+        return
